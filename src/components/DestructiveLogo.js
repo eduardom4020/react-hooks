@@ -1,62 +1,47 @@
-import React, { Component } from 'react';
+import React, { 
+    Component, 
+    useState, 
+    useEffect 
+} from 'react';
+
 import RotatingLogo from './RotatingLogo';
 
 const DEFAULT_MAX_HITS = 10;
 
-class DestructiveLogo extends Component {
-    constructor(props) {
-        super(props);
+const DestructiveLogo = props => {
+    const {
+        maxHits=DEFAULT_MAX_HITS
+    } = props;
 
-        this.state = {
-            hits: 0,
-            isAlive: true
-        }
-    }
+    const [ isAlive, setIsAlive ] = useState(true);
+    const [ hits, setHits ] = useState(0);
+    const [ colorFilter, setColorFilter ] = useState(null);
 
-    hitsIntensityToFilter = () => {
-        const { hits } = this.state;
-        const { maxHits=DEFAULT_MAX_HITS } = this.props;
-
+    useEffect(() => {
         const rotation = Math.floor( 180 / maxHits ) * hits;
         const strongness = Math.exp( Math.log(15) / maxHits * hits );
         const colorFilter = `hue-rotate(${rotation}deg) saturate(${strongness})`;
+        setColorFilter(colorFilter);
+    }, [hits]);
 
-        return colorFilter;
-    }
-
-    causeHit = (value=1) => {
-        this.setState(prevState => ({
-            hits: prevState.hits + 1
-        }));
-    }
-
-    componentDidUpdate() {
-        const { isAlive, hits } = this.state;
-        const { maxHits=DEFAULT_MAX_HITS } = this.props;
-
-        if(isAlive && hits === maxHits) {
-            this.setState({
-                isAlive: false
-            });
+    useEffect(() => {
+        if(isAlive && hits >= maxHits) {
+            setTimeout(() => setIsAlive(false), 400);
         }
+    }, [hits]);
+
+    const causeHit = (value=1) => event => {
+        setHits(hits + value);
     }
 
-    componentWillUnmount() {
-        console.log('THIS WAY THE COMPONENT WILL NEVER UNMOUNT!')
-    }
-    
-    render() {
-        const { isAlive } = this.state;
-
-        return(
-            isAlive &&
-                <RotatingLogo 
-                    colorFilter={this.hitsIntensityToFilter()}
-                    onClick={this.causeHit}
-                    {...this.props}
-                />
-        );
-    }
+    return (
+        isAlive &&
+            <RotatingLogo 
+                colorFilter={colorFilter}
+                onClick={causeHit()}
+                {...props}
+            />
+    );
 }
 
 export default DestructiveLogo;

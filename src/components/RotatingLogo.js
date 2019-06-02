@@ -5,7 +5,11 @@ import logo from '../images/logo.svg';
 
 const RotatingLogo = props => {
     return (
-        <RotatingImage src={logo} alt="logo" />
+        <RotatingImage 
+            src={logo} 
+            alt='logo'
+            {...props}
+        />
     );
 };
 
@@ -22,6 +26,7 @@ const RotatingImage = styled.img`
     animation: spin-animation infinite 20s linear;
     height: 40vmin;
     cursor: pointer;
+    filter : ${({colorFilter}) => colorFilter || ''};
 `;
 
 export default RotatingLogo;

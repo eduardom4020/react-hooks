@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import RotatingLogo from './components/RotatingLogo';
+import DestructiveLogo from './components/DestructiveLogo';
 
 const App = () => {
     return (
         <MainContent>
             <Body>
-                <RotatingLogo />
+                <DestructiveLogo />
                 <p>
                     Hello World!
                 </p>

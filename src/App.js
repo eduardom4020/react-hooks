@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import RotatingLogo from './components/RotatingLogo';
 import DestructiveLogo from './components/DestructiveLogo';
+import DestructiveText from './components/DestructiveText';
 
 const App = () => {
     return (
         <MainContent>
             <Body>
                 <DestructiveLogo />
-                <p>
+                <DestructiveText>
                     Hello World!
-                </p>
+                </DestructiveText>
                 <ColoredLink
                     href="https://reactjs.org"
                     target="_blank"

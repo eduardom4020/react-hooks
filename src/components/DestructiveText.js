@@ -1,13 +1,15 @@
-import React, { 
+import React, {
     useState, 
     useEffect 
 } from 'react';
 
-import RotatingLogo from './RotatingLogo';
+import styled from 'styled-components';
 
 const DEFAULT_MAX_HITS = 10;
 
-const DestructiveLogo = props => {
+const DestructiveText = props => {
+    const { children } = props;
+
     const {
         maxHits=DEFAULT_MAX_HITS
     } = props;
@@ -35,12 +37,19 @@ const DestructiveLogo = props => {
 
     return (
         isAlive &&
-            <RotatingLogo 
+            <ColoredText
                 colorFilter={colorFilter}
                 onClick={causeHit()}
-                {...props}
-            />
+            >
+                { children }
+            </ColoredText>
     );
-}
+};
 
-export default DestructiveLogo;
+const ColoredText = styled.p`
+    cursor: pointer;
+    color: white;
+    filter : ${({colorFilter}) => colorFilter || ''};
+`;
+
+export default DestructiveText;
